@@ -40,8 +40,13 @@ fn main() -> Result<()> {
 
     // Prepare input file and output folder
     let input_file = &args[1];
-    let output_folder = input_file.to_owned() + "_unpacked";
-    let output_folder = Path::new(&output_folder);
+  let out_arg = args
+    .iter()
+    .position(|a| a == "--out")
+    .and_then(|i| args.get(i + 1))
+    .cloned();
+let output_folder = out_arg.unwrap_or_else(|| input_file.to_owned() + "_unpacked");
+let output_folder = Path::new(&output_folder);
     create_dir_all(output_folder).context("Failed to create output folder")?;
 
     // Open E57 file
