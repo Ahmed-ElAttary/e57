@@ -36,6 +36,7 @@ fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
     ensure!(args.len() >= 2, "Usage: extract-images <path/to/my.e57>");
     let extract_points = !args.contains(&"--no-points".to_string());
+    let extract_images = !args.contains(&"--no-images".to_string());
 
     // Prepare input file and output folder
     let input_file = &args[1];
@@ -67,6 +68,7 @@ fn main() -> Result<()> {
     println!("Finished writing parsed metadata");
 
     // Extract images
+        if extract_images {
     let images = e57.images();
     let image_count = images.len();
     println!("Found {image_count} image(s)");
@@ -136,7 +138,7 @@ fn main() -> Result<()> {
                 println!("  Exported image mask with {size} bytes");
             }
         }
-    }
+    }}
 
     // Extract point clouds
     if extract_points {
